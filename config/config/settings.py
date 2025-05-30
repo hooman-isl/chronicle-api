@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # apps
     'users.apps.UsersConfig',
+    'chronicle.apps.ChronicleConfig',
 ]
 
 MIDDLEWARE = [
