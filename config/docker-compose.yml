@@ -1,0 +1,34 @@
+services:
+    database:
+        image: postgres
+        container_name: database
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        restart: always
+        environment:
+            - POSTGRES_USER=hoomanzali
+            - POSTGRES_PASSWORD=$hoomanzali.postgres-chronicle-api$
+            - POSTGRES_DB=chronicle-api-db
+
+    app:
+        build:
+            context: .
+        image: chronicle-api
+        container_name: application
+        command: sh -c 'python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+        ports:
+            - 8000:8000
+        depends_on:
+            - database
+        volumes:
+            - .:/app 
+        environment:
+            - DATABASE_NAME=chronicle-api-db
+            - DATABASE_USER=hoomanzali
+            - DATABASE_PASSWORD=$hoomanzali.postgres-chronicle-api$
+            - DATABASE_HOST=database
+            - DATABASE_PORT=5432
+
+
+volumes:
+    postgres:
